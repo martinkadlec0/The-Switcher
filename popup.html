@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+	<meta charset="utf-8">
+	<title>The Switcher - PopUp</title>
+
+	<link rel="stylesheet" type="text/css" href="styles/style.css" />
+
+	<script src="libs/jquery.min.js"></script>
+	<script src="libs/underscore.min.js"></script>
+	<script src="libs/backbone.min.js"></script>
+	<script src="scripts/main.js"></script>
+</head>
+<body>
+	<input type="search" autofocus="true" id="search" />
+
+	<div id="items">
+
+	</div>
+
+	<output></output>
+
+	<script type="template" id="template-item">
+		<div class="item-first-row"><%= title %></div>
+		<div class="item-second-row"><%= url %></div>
+	</script>
+</body>
+</html>

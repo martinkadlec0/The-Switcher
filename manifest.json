@@ -1,0 +1,30 @@
+{
+	"name": "The Switcher",
+	"developer": {
+		"name": "BS-Harou (Martin Kadlec)",
+		"url": "http://my.opera.com/BS-Harou/blog"
+	},
+	"description": "Switch tabs easily with keyboard",
+	"manifest_version": 2,
+	"version": "1.0",
+	"background": {
+		"page": "bg.html"
+	},
+	"web_accessible_resources": ["libs/jquery.min.js", "libs/underscore-min.js", "libs/backbone-min.js", "scripts/main.js", "images/arrow-left.png"],
+	"permissions": ["tabs", "https://*/*", "storage", "http://*/*", "opera://favicon/*"],
+	"content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'unsafe-eval';",
+	"browser_action": {
+		"default_title": "The Switcher", 
+		"default_popup": "popup.html"
+	},
+	"commands": {
+		"_execute_browser_action": {
+			"suggested_key": {
+				"windows": "Ctrl+Shift+P",
+				"mac": "Command+Shift+P",
+				"chromeos": "Ctrl+Shift+P",
+				"linux": "Ctrl+Shift+P"
+			}
+		}
+	}
+}
