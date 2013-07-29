@@ -1,6 +1,6 @@
 
 window.onerror = function(e, file, line) {
-	$('output').html('Error (' + line + ')' + e);
+	//$('output').html('Error (' + line + ')' + e);
 };
 
 RegExp.escape = function(str) {
@@ -120,7 +120,7 @@ $(function() {
 
 	var ItemView = Backbone.View.extend({
 		tagName: 'div',
-		className: 'item',
+		className: 'item visible',
 		template: _.template($('#template-item').html()),
 		events: {
 			'mouseup': 'handleMouseUp',
@@ -145,11 +145,11 @@ $(function() {
 		},
 		showModel: function() {
 			this.model.set('visible', 1);
-			this.$el.css('display', 'block');
+			this.$el.addClass('visible');
 		},
 		hideModel: function() {
 			this.model.set('visible', 0);
-			this.$el.css('display', 'none');
+			this.$el.removeClass('visible');
 		},
 		handleSelect: function() {
 			if (this.model.get('selected') == 1) {
@@ -280,6 +280,12 @@ $(function() {
 			}, this);
 
 			items.sort();
+
+			var first = items.where({ visible: 1 })[0];
+			if (first) {
+				first.set('selected', 1);	
+			}
+			
 			
 			//$('output').html(e.currentTarget.value);;
 		},

@@ -15,7 +15,13 @@
 	"content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'unsafe-eval';",
 	"browser_action": {
 		"default_title": "The Switcher", 
-		"default_popup": "popup.html"
+		"default_popup": "popup.html",
+		"default_icon": {
+			"16": "images/icon16.png",
+			"19": "images/icon19.png",
+			"32": "images/icon32.png",
+			"38": "images/icon38.png"
+		}
 	},
 	"commands": {
 		"_execute_browser_action": {
@@ -26,5 +32,11 @@
 				"linux": "Ctrl+Shift+P"
 			}
 		}
-	}
+	},
+	"icons": {
+		"16": "images/icon16.png",
+		"32": "images/icon32.png",
+		"48": "images/icon48.png",
+		"64": "images/icon64.png" 
+    }
 }
