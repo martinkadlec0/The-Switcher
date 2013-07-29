@@ -14,15 +14,17 @@
 <body>
 	<input type="search" autofocus="true" id="search" />
 
+	<output></output>
+
 	<div id="items">
 
 	</div>
 
-	<output></output>
+	
 
 	<script type="template" id="template-item">
-		<div class="item-first-row"><%= title %></div>
-		<div class="item-second-row"><%= url %></div>
+		<div class="item-first-row" title="<%= title.replace(/\"/g, '\"') %>"><%= title %></div>
+		<div class="item-second-row" title="<%= url %>"><%= url %></div>
 	</script>
 </body>
 </html>
