@@ -160,7 +160,7 @@ $(function() {
 		},
 		handleMouseDown: function(e) {
 			if (this.model.get('selected') != 1) {
-				var old = items.where({ selected: 1 })[0];
+				var old = items.findWhere({ selected: 1 });
 				if (old) {
 					old.set('selected', 0);
 				}
@@ -207,7 +207,7 @@ $(function() {
 			}
 
 			if (e.keyCode == 13) {
-				var s = items.where({ selected: 1 })[0];
+				var s = items.findWhere({ selected: 1 });
 				if (!s) {
 					s = visItems[0];
 				}
@@ -281,9 +281,10 @@ $(function() {
 
 			items.sort();
 
-			var first = items.where({ visible: 1 })[0];
+			var first = items.findWhere({ visible: 1 });
 			if (first) {
-				first.set('selected', 1);	
+				first.set('selected', 1);
+				this.si = 0;
 			}
 			
 			
