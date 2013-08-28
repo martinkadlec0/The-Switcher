@@ -13,6 +13,16 @@
 	"web_accessible_resources": ["libs/jquery.min.js", "libs/underscore-min.js", "libs/backbone-min.js", "scripts/main.js", "images/arrow-left.png"],
 	"permissions": ["tabs", "https://*/*", "storage", "http://*/*", "opera://favicon/*"],
 	"content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'unsafe-eval';",
+	"commands": {
+		"_execute_browser_action": {
+			"suggested_key": {
+				"windows": "Ctrl+M",
+				"mac": "Command+M",
+				"chromeos": "Ctrl+M",
+				"linux": "Ctrl+M"
+			}
+		}
+	},
 	"browser_action": {
 		"default_title": "The Switcher", 
 		"default_popup": "popup.html",
@@ -23,16 +33,7 @@
 			"38": "images/icon38.png"
 		}
 	},
-	"commands": {
-		"_execute_browser_action": {
-			"suggested_key": {
-				"windows": "Ctrl+Shift+P",
-				"mac": "Command+Shift+P",
-				"chromeos": "Ctrl+Shift+P",
-				"linux": "Ctrl+Shift+P"
-			}
-		}
-	},
+	
 	"icons": {
 		"16": "images/icon16.png",
 		"32": "images/icon32.png",
