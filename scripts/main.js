@@ -240,6 +240,9 @@ $(function() {
 					this.si = visItems.length - 1;
 					visItems[this.si].set('selected', 1);
 				}
+			} else if (e.keyCode == 27) {
+				window.close();
+				e.preventDefault();	
 			}
 
 			if (e.keyCode == 13 || e.keyCode == 38 || e.keyCode == 40) {
