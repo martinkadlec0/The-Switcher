@@ -345,6 +345,10 @@ $(function() {
 			request.value.forEach(function(tab) {
 				items.add(tab);
 			});
+
+			if (items.length) {
+				items.at(0).set('selected', 1);
+			}
 		}
 	});
 
