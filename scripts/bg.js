@@ -4,7 +4,12 @@ var closedTabs = [];
 chrome.windows.getAll({ populate: true }, function(wins) {
 	wins.forEach(function(win) {
 		win.tabs.forEach(function(tab) {
-			openedTabs.push({ id: tab.id, title: tab.title, url: tab.url, actTime: Date.now(), isClosed: false });
+			if (tab.active) {
+				openedTabs.push({ id: tab.id, title: tab.title, url: tab.url, actTime: Date.now() + 100, isClosed: false });
+			} else {
+				openedTabs.push({ id: tab.id, title: tab.title, url: tab.url, actTime: Date.now(), isClosed: false });	
+			}
+			
 		});
 	});
 });
