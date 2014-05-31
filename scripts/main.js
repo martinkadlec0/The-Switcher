@@ -178,6 +178,7 @@ $(function() {
 		handleMouseUp: function(e) {
 			if (this.model.get('selected') == 1) {
 				chrome.tabs.update(this.model.get('id'), { selected: true });
+				window.close();
 			}
 		},
 		scrollToView: function() {
@@ -213,6 +214,7 @@ $(function() {
 				}
 				var id = s.get('id');
 				chrome.tabs.update(id, { selected: true });
+				window.close();
 				return;
 			} else if (e.keyCode == 40) {
 				var s = $('.item-selected').get(0);
@@ -311,9 +313,11 @@ $(function() {
 
 	
 
-	chrome.windows.getCurrent({ populate: true }, function(win) {
-		win.tabs.forEach(function(tab) {
-			items.add({ title: tab.title, url: tab.url, id: tab.id });
+	chrome.windows.getAll({ populate: true }, function(wins) {
+		wins.forEach(function(win) {
+			win.tabs.forEach(function(tab) {
+				items.add({ title: tab.title, url: tab.url, id: tab.id });
+			});
 		});
 	});
 
