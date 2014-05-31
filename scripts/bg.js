@@ -53,12 +53,26 @@ function getById(arr, id) {
 	return false;
 }
 
+function getMostRecent() {
+	var mr = -1;
+	var index = -1;
+	for (var i=0, j=openedTabs.length; i<j; i++) {
+		if (mr == -1 || openedTabs[i].actTime > mr.actTime) {
+			mr = openedTabs[i];
+			index = i;
+		}
+	}
+	return index;
+}
+
 function getTabList() {
 	var rt = [];
 
 	for (var i=0, j=openedTabs.length; i<j; i++) {
 		rt.push(openedTabs[i]);
 	}
+	var mr = getMostRecent();
+	rt.splice(mr, 1);
 
 	for (var i=0, j=closedTabs.length; i<j; i++) {
 		rt.push(closedTabs[i]);
