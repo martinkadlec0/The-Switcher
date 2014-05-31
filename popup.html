@@ -21,7 +21,7 @@
 	
 
 	<script type="template" id="template-item">
-		<div class="item-first-row" title="<%= title.replace(/\"/g, '\"') %>"><%= title %></div>
+		<div class="item-first-row" title="<%= title.replace(/\"/g, '\"') %>" data-closed="<%= isClosed %>"><%= title %></div>
 		<div class="item-second-row" title="<%= url %>"><%= url %></div>
 	</script>
 </body>

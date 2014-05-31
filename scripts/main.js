@@ -102,6 +102,8 @@ $(function() {
 			title: '<no title>',
 			url: '<no url>',
 			id: -1,
+			actTime: 0,
+			isClosed: false,
 			visible: 1,
 			selected: 0,
 			score: -1
@@ -112,7 +114,10 @@ $(function() {
 		model: Item,
 		comparator: function(a, b) {
 			if (a.get('score') == b.get('score')) {
-				return a.get('id') < b.get('id') ? 1 : -1;
+				if (a.get('isClosed') == b.get('isClosed')) {
+					return a.get('actTime') < b.get('actTime') ? 1 : -1;
+				} 
+				return a.get('isClosed') ? 1 : -1;
 			}
 			return a.get('score') < b.get('score') ? 1 : -1;
 		}
@@ -177,7 +182,13 @@ $(function() {
 		},
 		handleMouseUp: function(e) {
 			if (this.model.get('selected') == 1) {
-				chrome.tabs.update(this.model.get('id'), { selected: true });
+				if (this.model.get('isClosed')) {
+					chrome.tabs.create({ url: this.model.get('url'), active: true });
+					chrome.runtime.sendMessage({ action: 'remove-closed-tab', value: this.model.get('id') });
+				} else {
+					chrome.tabs.update(this.model.get('id'), { selected: true });
+				}
+				
 				window.close();
 			}
 		},
@@ -213,7 +224,13 @@ $(function() {
 					s = visItems[0];
 				}
 				var id = s.get('id');
-				chrome.tabs.update(id, { selected: true });
+				if (s.get('isClosed')) {
+					chrome.tabs.create({ url: s.get('url'), active: true });
+					chrome.runtime.sendMessage({ action: 'remove-closed-tab', value: this.model.get('id') });
+				} else {
+					chrome.tabs.update(id, { selected: true });	
+				}
+				
 				window.close();
 				return;
 			} else if (e.keyCode == 40) {
@@ -313,14 +330,23 @@ $(function() {
 
 	
 
-	chrome.windows.getAll({ populate: true }, function(wins) {
+	/*chrome.windows.getAll({ populate: true }, function(wins) {
 		wins.forEach(function(win) {
 			win.tabs.forEach(function(tab) {
 				items.add({ title: tab.title, url: tab.url, id: tab.id });
 			});
 		});
-	});
+	});*/
 
+	chrome.runtime.sendMessage({ action: 'get-tabs-request' });
+
+	chrome.runtime.onMessage.addListener(function (request, sender, sendBack){
+		if (request.action == 'get-tabs-response') {
+			request.value.forEach(function(tab) {
+				items.add(tab);
+			});
+		}
+	});
 
 
 });
