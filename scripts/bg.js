@@ -1,3 +1,7 @@
+/**
+ * Tab lists
+ */
+
 var openedTabs = [];
 var closedTabs = [];
 
@@ -19,17 +23,19 @@ chrome.tabs.onCreated.addListener(function(tab){
 });
 
 chrome.tabs.onRemoved.addListener(function(tabId){
-	if (closedTabs.length > 10) {
-		closedTabs.pop();
-	}
-
-	for (var i=0, j=openedTabs.length; i<j; i++) {
-		if (openedTabs[i].id == tabId) {
-			closedTabs.push({ title: openedTabs[i].title, url: openedTabs[i].url, actTime: Date.now(), isClosed: true, id: tabId + '-closed' });
-			openedTabs.splice(i, 1);
-			break;	
+	chrome.storage.local.get({ rememberClosedTabs: 10 }, function(data) {
+		if (closedTabs.length && closedTabs.length >= data.rememberClosedTabs) {
+			closedTabs.pop();
 		}
-	}
+
+		for (var i=0, j=openedTabs.length; i<j; i++) {
+			if (openedTabs[i].id == tabId) {
+				closedTabs.push({ title: openedTabs[i].title, url: openedTabs[i].url, actTime: Date.now(), isClosed: true, id: tabId + '-closed' });
+				openedTabs.splice(i, 1);
+				break;	
+			}
+		}
+	});
 });
 
 chrome.tabs.onUpdated.addListener(function(tabId, changeINfo, tab){
@@ -90,6 +96,15 @@ chrome.runtime.onMessage.addListener(function (request, sender){
 				closedTabs.splice(i, 1);
 				break;	
 			}
+		}
+	}
+});
+
+chrome.storage.onChanged.addListener(function(changes, ns) {
+	if (ns != 'local') return;
+	if ('rememberClosedTabs' in changes) {
+		while (closedTabs.length > changes.rememberClosedTabs.newValue) {
+			closedTabs.pop();
 		}
 	}
 });

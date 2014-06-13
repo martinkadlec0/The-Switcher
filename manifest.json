@@ -23,6 +23,7 @@
 			}
 		}
 	},
+	"options_page": "options.html",
 	"browser_action": {
 		"default_title": "The Switcher", 
 		"default_popup": "popup.html",
