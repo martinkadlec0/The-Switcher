@@ -129,10 +129,11 @@ $(function() {
 		template: _.template($('#template-item').html()),
 		events: {
 			'mouseup': 'handleMouseUp',
-			'mousedown': 'handleMouseDown',
+			'mousedown': 'handleMouseDown'
 		},
 		initialize: function() {
 			this.model.on('change:score', this.handleScore, this);
+			this.model.on('change:isClosed', this.render, this);
 			this.model.on('move', this.handleMove, this);
 			this.model.on('scrollToView', this.scrollToView, this);
 			this.model.on('change:selected', this.handleSelect, this);
@@ -193,7 +194,7 @@ $(function() {
 			}
 		},
 		scrollToView: function() {
-			this.el.scrollIntoView(true);
+			this.el.scrollIntoView(false);
 		},
 		handleMove: function() {
 			$('#items').append(this.render().el);
@@ -261,6 +262,13 @@ $(function() {
 				}
 			} else if (e.keyCode == 27) {
 				window.close();
+				e.preventDefault();	
+			} else if (e.keyCode == 46) {
+				var s = items.findWhere({ selected: 1 });
+				if (!s || s.get('isClosed') || s.get('id') < 0) return;
+				chrome.tabs.remove(s.get('id'));
+				s.set('isClosed', true);
+				
 				e.preventDefault();	
 			}
 
