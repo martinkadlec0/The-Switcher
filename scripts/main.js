@@ -165,21 +165,24 @@ $(function() {
 			}
 		},
 		handleMouseDown: function(e) {
-			if (this.model.get('selected') != 1) {
-				var old = items.findWhere({ selected: 1 });
-				if (old) {
-					old.set('selected', 0);
-				}
-				this.model.set('selected', 1);
+			if (this.model.get('selected') == 1) {
+				return;
+			}
 
-				var visItems = items.where({ visible: 1 });
-				for (var i=0; i<visItems.length; i++) {
-					if (visItems[i] == this.model) {
-						app.si = i;
-						break;
-					}
+			var old = items.findWhere({ selected: 1 });
+			if (old) {
+				old.set('selected', 0);
+			}
+			this.model.set('selected', 1);
+
+			var visItems = items.where({ visible: 1 });
+			for (var i=0; i<visItems.length; i++) {
+				if (visItems[i] == this.model) {
+					app.si = i;
+					break;
 				}
 			}
+			
 		},
 		handleMouseUp: function(e) {
 			if (this.model.get('selected') == 1) {
@@ -323,11 +326,18 @@ $(function() {
 		addAll: function(models) {
 			//$('output').html(Math.random());
 			$('#items').html('');
+			this._fragment = document.createDocumentFragment();
 			models.forEach(this.addOne, this);
+			$('#items').append(this._fragment);
+			this._fragment = null;
 		},
 		addOne: function(model) {
 			var view = new ItemView({ model: model });
-			$('#items').append(view.render().el);
+			if (this._fragment) {
+				this._fragment.appendChild(view.render().el);
+			} else {
+				$('#items').append(view.render().el);	
+			}
 		},
 		sortAll: function() {
 			items.forEach(function(item) {
@@ -336,23 +346,11 @@ $(function() {
 		}
 	}));
 
-	
-
-	/*chrome.windows.getAll({ populate: true }, function(wins) {
-		wins.forEach(function(win) {
-			win.tabs.forEach(function(tab) {
-				items.add({ title: tab.title, url: tab.url, id: tab.id });
-			});
-		});
-	});*/
-
 	chrome.runtime.sendMessage({ action: 'get-tabs-request' });
 
 	chrome.runtime.onMessage.addListener(function (request, sender, sendBack){
 		if (request.action == 'get-tabs-response') {
-			request.value.forEach(function(tab) {
-				items.add(tab);
-			});
+			items.reset(request.value);
 
 			if (items.length) {
 				items.at(0).set('selected', 1);
