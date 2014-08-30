@@ -29,9 +29,10 @@ body {
 	overflow-x: hidden;
 	-webkit-user-select: none;
 	user-select: none;
+	padding-bottom: 5px;
 }
 
-::-webkit-scrollbar {
+#items::-webkit-scrollbar {
 	height: 16px;
 	overflow: visible;
 	width: 16px;
@@ -39,11 +40,11 @@ body {
 	background-clip: content-box;
 	background: linear-gradient(to right, rgb(34, 34, 34), rgb(45, 45, 45));
 }
-::-webkit-scrollbar-button {
+#items::-webkit-scrollbar-button {
 	height: 0;
 	width: 0;
 }
-::-webkit-scrollbar-thumb {
+#items::-webkit-scrollbar-thumb {
 	background-clip: content-box;
 	border: 3px solid transparent;
 	background-image: linear-gradient(to right, rgb(84, 84, 84), rgb(64, 64, 64));
@@ -51,14 +52,14 @@ body {
 	border-radius: 10px;
 	box-shadow: inset 1px 0px rgb(30, 30, 30), inset -1px 0px rgb(30, 30, 30);
 }
-::-webkit-scrollbar-corner {
+#items::-webkit-scrollbar-corner {
 	background: transparent
 }
 
 
 .item {
 	width: 100%;
-	padding: 10px;
+	padding: 6px 10px;
 	border-top: 1px solid rgb(77,77,77);
 	border-bottom: 1px solid #333;
 	display: none;
@@ -86,13 +87,13 @@ body {
 }
 
 .favicon img {
-	max-width: 28px;
-	max-height: 28px;
+	max-width: 24px;
+	max-height: 24px;
 	vertical-align: middle;
 }
 
 .item-first-row {
-	font-size: 15px;
+	font-size: 13px;
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -100,7 +101,8 @@ body {
 }
 
 .item-second-row {
-	font-size: 13px;
+	margin-top: 4px;
+	font-size: 12px;
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
