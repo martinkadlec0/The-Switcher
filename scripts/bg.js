@@ -46,6 +46,19 @@ chrome.tabs.onActivated.addListener(function(activeInfo){
 	tabView.actTime = Date.now();
 });
 
+chrome.windows.onFocusChanged.addListener(function(windowId){
+	if (windowId == chrome.windows.WINDOW_ID_NONE) return;
+
+	chrome.tabs.query({ active: true, windowId: windowId }, function(tabs) {
+		if (!tabs || !tabs.length) return;
+
+		var tabView = getById(openedTabs, tabs[0].id);
+		tabView.actTime = Date.now();
+	});
+	
+});
+
+
 function getById(arr, id) {
 	for (var i=0, j=arr.length; i<j; i++) {
 		if (arr[i].id == id) {
