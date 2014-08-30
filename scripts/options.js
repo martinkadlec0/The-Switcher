@@ -1,7 +1,9 @@
 $(function() {
 
 
-	chrome.storage.local.get({ rememberClosedTabs: 10 }, function(data) {
+	chrome.storage.local.get({ 
+		rememberClosedTabs: 10, showFavicons: true 
+	}, function(data) {
 		$('select[id], input[type=number], input[type=range], input[type=range]').each(function(i, item) {
 			$(item).val(data[item.id]);
 			

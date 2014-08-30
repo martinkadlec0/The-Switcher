@@ -8,18 +8,14 @@ var closedTabs = [];
 chrome.windows.getAll({ populate: true }, function(wins) {
 	wins.forEach(function(win) {
 		win.tabs.forEach(function(tab) {
-			if (tab.active) {
-				openedTabs.push({ id: tab.id, title: tab.title, url: tab.url, actTime: Date.now() + 100, isClosed: false });
-			} else {
-				openedTabs.push({ id: tab.id, title: tab.title, url: tab.url, actTime: Date.now(), isClosed: false });	
-			}
-			
+			var addTime = tab.active ? 100 : 0;
+			openedTabs.push({ id: tab.id, title: tab.title, url: tab.url, actTime: Date.now() + addTime, isClosed: false, favIconUrl: tab.favIconUrl });
 		});
 	});
 });
 
 chrome.tabs.onCreated.addListener(function(tab){
-	openedTabs.push({ id: tab.id, title: tab.title, url: tab.url, actTime: Date.now(), isClosed: false });
+	openedTabs.push({ id: tab.id, title: tab.title, url: tab.url, actTime: Date.now(), isClosed: false, favIconUrl: tab.favIconUrl });
 });
 
 chrome.tabs.onRemoved.addListener(function(tabId){
@@ -30,7 +26,7 @@ chrome.tabs.onRemoved.addListener(function(tabId){
 
 		for (var i=0, j=openedTabs.length; i<j; i++) {
 			if (openedTabs[i].id == tabId) {
-				closedTabs.push({ title: openedTabs[i].title, url: openedTabs[i].url, actTime: Date.now(), isClosed: true, id: tabId + '-closed' });
+				closedTabs.push({ title: openedTabs[i].title, url: openedTabs[i].url, actTime: Date.now(), isClosed: true, id: tabId + '-closed', favIconUrl: openedTabs[i].favIconUrl });
 				openedTabs.splice(i, 1);
 				break;	
 			}
@@ -38,10 +34,11 @@ chrome.tabs.onRemoved.addListener(function(tabId){
 	});
 });
 
-chrome.tabs.onUpdated.addListener(function(tabId, changeINfo, tab){
+chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab){
 	var tabView = getById(openedTabs, tabId);
 	tabView.url = tab.url;
 	tabView.title = tab.title;
+	tabView.favIconUrl = tab.favIconUrl
 });
 
 chrome.tabs.onActivated.addListener(function(activeInfo){

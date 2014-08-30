@@ -140,7 +140,9 @@ $(function() {
 			this.model.on('change:selected', this.handleSelect, this);
 		},
 		render: function() {
-			this.$el.html(this.template(this.model.toJSON()));
+			var tplData = this.model.toJSON();
+			tplData.showFavicons = app.showFavicons;
+			this.$el.html(this.template(tplData));
 			return this;
 		},
 		handleScore: function() {
@@ -208,6 +210,7 @@ $(function() {
 	var app = new (Backbone.View.extend({
 		el: 'body',
 		si: 0,
+		showFavicons: true,
 		events: {
 			'input #search': 'handleSearch',
 			'keydown': 'handleKeyDown'
@@ -350,19 +353,16 @@ $(function() {
 
 	chrome.runtime.onMessage.addListener(function (request, sender, sendBack){
 		if (request.action == 'get-tabs-response') {
-			var tabs = request.value;
-			chrome.tabs.query({}, function(moreTabInfo){
-				tabs.forEach(function(tab) {
-					// include favIconUrl (and other less important properties)
-					_.extend(tab, _.findWhere(moreTabInfo, {id: tab.id}));
-				});
-
-				items.reset(tabs);
+			chrome.storage.local.get({ showFavicons: true }, function(data) {
+				
+				app.showFavicons = !!data.showFavicons;
+				items.reset(request.value);
 
 				if (items.length) {
 					items.at(0).set('selected', 1);
 				}
 			});
+			
 		}
 	});
 
