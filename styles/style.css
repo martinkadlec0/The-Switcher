@@ -9,15 +9,17 @@ body {
 	max-width: 400px;
 	padding: 5px;
 	background: rgb(64,64,64);
+	font-family: Arial, sans-serif;
 }
 
 #search {
 	width: 100%;
 	padding: 2px 5px;
 	font-size: 16px;
-	font-family: Arial;
+	font-weight: bold;
 	display: block;
 	margin: 0;
+	background: rgb(230,230,230);
 }
 
 
@@ -49,6 +51,21 @@ body {
 	background: rgb(87, 87, 87);;
 }
 
+.favicon {
+	float: left;
+	width: 32px;
+	height: 32px;
+	line-height: 32px;
+	margin-right: 10px;
+	text-align: center;
+}
+
+.favicon img {
+	max-width: 28px;
+	max-height: 28px;
+	vertical-align: middle;
+}
+
 .item-first-row {
 	font-size: 15px;
 	white-space: nowrap;
@@ -62,7 +79,7 @@ body {
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
-	color: rgb(196,255,225);
+	color: rgb(255,255,255);
 }
 
 [data-closed=true] {

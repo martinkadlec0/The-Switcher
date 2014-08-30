@@ -21,6 +21,9 @@
 	
 
 	<script type="template" id="template-item">
+		<div class="favicon">
+			<img src="<%= favIconUrl %>"></img>
+		</div>
 		<div class="item-first-row" title="<%= title.replace(/\"/g, '\"') %>" data-closed="<%= isClosed %>"><%= title %></div>
 		<div class="item-second-row" title="<%= url %>"><%= url %></div>
 	</script>
