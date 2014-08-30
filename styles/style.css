@@ -51,6 +51,21 @@ body {
 	background: rgb(87, 87, 87);;
 }
 
+.favicon {
+	float: left;
+	width: 32px;
+	height: 32px;
+	line-height: 32px;
+	margin-right: 10px;
+	text-align: center;
+}
+
+.favicon img {
+	max-width: 28px;
+	max-height: 28px;
+	vertical-align: middle;
+}
+
 .item-first-row {
 	font-size: 15px;
 	white-space: nowrap;

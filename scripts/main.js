@@ -101,6 +101,7 @@ $(function() {
 		defaults: {
 			title: '<no title>',
 			url: '<no url>',
+			favIconUrl: '',
 			id: -1,
 			actTime: 0,
 			isClosed: false,
@@ -286,7 +287,6 @@ $(function() {
 			}, this);
 
 			var v = e.currentTarget.value;
-
 			
 
 			/**
@@ -350,13 +350,20 @@ $(function() {
 
 	chrome.runtime.onMessage.addListener(function (request, sender, sendBack){
 		if (request.action == 'get-tabs-response') {
-			items.reset(request.value);
+			var tabs = request.value;
+			chrome.tabs.query({}, function(moreTabInfo){
+				tabs.forEach(function(tab) {
+					// include favIconUrl (and other less important properties)
+					_.extend(tab, _.findWhere(moreTabInfo, {id: tab.id}));
+				});
 
-			if (items.length) {
-				items.at(0).set('selected', 1);
-			}
+				items.reset(tabs);
+
+				if (items.length) {
+					items.at(0).set('selected', 1);
+				}
+			});
 		}
 	});
-
 
 });
